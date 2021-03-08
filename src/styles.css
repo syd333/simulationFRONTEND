@@ -1,0 +1,60 @@
+
+
+body {
+    font-family: 'Titillium Web', sans-serif;
+  }
+
+.channel-container {
+    display: flex;
+}
+
+.block-container {
+    display: flex;
+}
+
+
+.card-body-channel{
+    display: flex;
+    margin: 10px;
+    text-align: center;
+    border-color: black;
+    border-width:2px;
+    border-style:solid;
+    box-shadow: 10px 5px black;
+    /* border-radius: 8px; */
+    background-color: white;
+    flex-basis: auto;
+    min-width: 28vh;
+    min-height: 30vh;
+    font-size: 25px;
+    background-color: white;
+    text-align: center;
+}
+
+.card-body-block{
+    display: flex;
+    margin: 10px;
+    text-align: center;
+    border-color: black;
+    border-width:2px;
+    border-style:solid;
+    box-shadow: 10px 5px black;
+    /* border-radius: 8px; */
+    background-color: white;
+    flex-basis: auto;
+    min-width: 28vh;
+    min-height: 30vh;
+    font-size: 20px;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+
+
+/* .navbar.navbar-expand-lg.navbar-light.bg.light{
+/* font-size: 40px; */
+/*  */
+/* 
+.navbar a.navbar-brand{
+    font-weight: bold;
+} */
