@@ -2,6 +2,10 @@
 
 body {
     font-family: 'Titillium Web', sans-serif;
+    /* background-image: url('/fire2.jpg');
+    background-repeat: no-repeat;
+    background-size: 175% 250%; */
+    
   }
 
 .channel-container {
@@ -35,20 +39,27 @@ body {
     display: flex;
     margin: 10px;
     text-align: center;
-    border-color: black;
     border-width:2px;
-    border-style:solid;
-    box-shadow: 10px 5px black;
+    border-style: solid;
+    /* box-shadow: 10px 5px black; */
     /* border-radius: 8px; */
     background-color: white;
     flex-basis: auto;
     min-width: 28vh;
     min-height: 30vh;
-    font-size: 20px;
+    font-size: 15px;
     flex-wrap: wrap;
     text-align: center;
+    opacity: 0.6;
 }
 
+.home{
+    color: black;
+
+}
+.create-channel{
+    color: black;
+}
 
 
 /* .navbar.navbar-expand-lg.navbar-light.bg.light{
