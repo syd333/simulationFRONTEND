@@ -1,10 +1,10 @@
 
 
 body {
-    font-family: 'Titillium Web', sans-serif;
-    /* background-image: url('/fire2.jpg');
-    background-repeat: no-repeat;
-    background-size: 175% 250%; */
+    font-family: ocr-a-std, monospace;
+    font-weight: 400;
+    font-style: normal;
+    background-image: url('/fire.jpg');
     
   }
 
@@ -33,32 +33,66 @@ body {
     font-size: 25px;
     background-color: white;
     text-align: center;
+    
 }
 
+.card-title {
+    text-align: center;
+    display: flex;
+}
+
+.card-text {
+    text-align: center;
+    display: flex;
+}
 .card-body-block{
     display: flex;
     margin: 10px;
-    text-align: center;
     border-width:2px;
     border-style: solid;
-    /* box-shadow: 10px 5px black; */
-    /* border-radius: 8px; */
     background-color: white;
     flex-basis: auto;
     min-width: 28vh;
     min-height: 30vh;
     font-size: 15px;
-    flex-wrap: wrap;
-    text-align: center;
     opacity: 0.6;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .home{
     color: black;
+    font-weight: bolder;
 
 }
 .create-channel{
     color: black;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.create-block{
+    color: black;
+}
+
+.welcome-text{
+    margin: 10px;
+    padding-left: 10px;
+}
+
+.block-form{
+    margin-left: auto;
+    padding-left: 30px;
+    padding-bottom: 30px;
+    color: black;
+}
+
+.channel-form{
+    margin-left: auto;
+    padding-left: 30px;
+    padding-bottom: 30px;
 }
 
 
