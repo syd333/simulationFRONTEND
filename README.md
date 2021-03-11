@@ -4,7 +4,7 @@
 - append post for block [x]
 - patch for block []
 - delete for block [x]
-- clicking simulation in nav takes u to home []
+- clicking simulation in nav takes u to home [x]
 
 STRETCH:::
-- CSS
+- CSS 

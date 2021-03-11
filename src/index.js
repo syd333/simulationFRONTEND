@@ -232,8 +232,8 @@ function editBlock(block){
     .then(res => res.json())
     .then(console.log)
 }
-// let welcomeDiv = document.querySelector('welcome-text')
-// welcomeDiv.addEventListener("click", () => refreshPage)
-// function refreshPage(e) {
-//     welcomeDiv.reset()
-// }
+let homelink = document.querySelector('.home')
+homelink.addEventListener("click", refreshPage)
+    function refreshPage(){
+        window.location.reload();
+    } 
