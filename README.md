@@ -1,12 +1,10 @@
 # simulationfrontend
 
 //TODO:::
-- append post for block []
-- patch for block or delete for channel []
-- delete for block []
-- fix delete btn (deleting every block when 1st is  clicked) []
+- append post for block [x]
+- patch for block []
+- delete for block [x]
 - clicking simulation in nav takes u to home []
 
 STRETCH:::
 - CSS
-- turn fetch to axios

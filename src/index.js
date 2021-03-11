@@ -1,10 +1,6 @@
 const BASE_URL = "http://localhost:3000"
 const BLOCKS_URL = `${BASE_URL}/blocks`
 const CHANNELS_URL = `${BASE_URL}/channels`
-// const CHANNELSARR = []
-// everytime a channel it gets pushed into an array
-// function with array then iterates over array 
-// grabs the select/options to populate for block form
 
 document.addEventListener("DOMContentLoaded", function() {
     getChannels()
@@ -63,22 +59,22 @@ function buildChannel(channel){
 
         container.appendChild(card)
         card.appendChild(p)
-
-        card.addEventListener('click', (e) => {
+        // card.addEventListener('click', (e) => {
         //   return showHideDiv(e) 
         // console.log(p.parentElement)
-        })
+        // })
     }
 
 let blockContainer = document.querySelector('.block-container')
 function buildBlock(block){
-    if (document.getElementById(block.channel_id) === null ) {
+    // if (document.getElementById(block.channel_id) === null ) {
             let blockDiv = document.createElement('div')
             const containerB = document.createElement('div')
             const cardB = document.createElement('card')
             const h5 = document.createElement('h5')
             const p = document.createElement('p')
-            // const deleteBtn = document.createElement('button')
+            const deleteBtn = document.createElement('button')
+            const editBtn = document.createElement('button')
         
             
             containerB.className = 'block-container'
@@ -89,45 +85,46 @@ function buildBlock(block){
             p.className = 'card-text'
             h5.textContent = block.title
             p.innerText = block.description
-            // deleteBtn.innerText = 'x'
+            deleteBtn.innerText = 'x'
+            editBtn.innerText = 'e'
         
             // blockDiv.hidden = false
-            cardB.append(h5, p)
+            cardB.append(h5, p, editBtn, deleteBtn)
             containerB.appendChild(cardB)
             blockDiv.append(containerB)
             blockContainer.append(blockDiv)
+            deleteBtn.addEventListener('click', () => deleteBlock(block, cardB))
+            editBtn.addEventListener('click', () => populateEditForm(block))
 
-            // deleteBtn.addEventListener('click', deleteBlock(block, containerB.dataset.id))
-
-    } else {
-        let blockDiv = document.getElementById(block.channel_id)
-        const containerB = document.createElement('div') 
-        const cardB = document.createElement('card')
-        const h5 = document.createElement('h5')
-        const p = document.createElement('p')
+    // } else {
+        // let blockDiv = document.getElementById(block.channel_id)
+        // const containerB = document.createElement('div') 
+        // const cardB = document.createElement('card')
+        // const h5 = document.createElement('h5')
+        // const p = document.createElement('p')
         // const deleteBtn = document.createElement('button')
     
-        containerB.className = 'block-container'
-        containerB.id = block.channel_id
+        // containerB.className = 'block-container'
+        // containerB.id = block.channel_id
         // containerB.dataset.id = block.id
-        cardB.className = 'card-body-block'
-        h5.className = 'card-title'
-        p.className = 'card-text'
-        h5.textContent = block.title
-        p.innerText = block.description
+        // cardB.className = 'card-body-block'
+        // h5.className = 'card-title'
+        // p.className = 'card-text'
+        // h5.textContent = block.title
+        // p.innerText = block.description
         // deleteBtn.innerText = 'x'
 
         // blockDiv.hidden = false
-        cardB.append(h5, p)
-        containerB.appendChild(cardB)
-        blockDiv.append(containerB)
-        blockContainer.append(blockDiv)
+        // cardB.append(h5, p)
+        // containerB.appendChild(cardB)
+        // blockDiv.append(containerB)
+        // blockContainer.append(blockDiv)
 
         // deleteBtn.addEventListener('click', deleteBlock(block, containerB.dataset.id))
         // console.log(containerB.dataset.id)
         // console.log(blockDiv)
 
-    }
+    // }
 }
 
 // function showHideDiv(e) {
@@ -140,7 +137,6 @@ function buildBlock(block){
 //     }
 // }
 
-//if ++channel clicked - for will populate 
 let channelForm = document.querySelector('.channel-form')
    const createChannel = document.querySelector('.create-channel')
    createChannel.addEventListener('click', () => {
@@ -181,8 +177,8 @@ function newBlock(e){
         channel_id: e.target[2].value,
         user_id: 41
     }
-    postBlock(block)
     blockForm.reset()
+    postBlock(block)
 }
 
 function buildBlockFormDropDown(CHANNELSARR) {
@@ -193,15 +189,51 @@ function buildBlockFormDropDown(CHANNELSARR) {
         options.value = channel.id
         dropdown.appendChild(options)
     })
-    
 }
 
-function deleteBlock(block) {
+function deleteBlock(block, cardB) {
     fetch(BLOCKS_URL + `/${block.id}`, {
         method: 'DELETE'
     })
         .then(res => res.json())
         .then(() => {
-            containerB.dataset.id.remove()
+            cardB.remove()
         })
 }
+
+function populateEditForm(e){
+    let blockContainer = document.querySelector('block-container')
+    const cardEdit = document.createElement('card')
+    let editForm = document.createElement('form')
+    const h5 = document.createElement('h5')
+    const p = document.createElement('p')
+
+    h5.textContent = e.title
+    console.log(e.description)
+
+
+    // h5.textContent = e.target.title.value
+    // p.textContent = block.description
+    editForm.append(h5, p)
+    cardEdit.appendChild(editForm)
+    blockContainer.appendChild(cardEdit)
+
+}
+
+function editBlock(block){
+    fetch(BLOCKS_URL + `/${block.id}`, {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        },
+        body: JSON.stringify(block)
+    })
+    .then(res => res.json())
+    .then(console.log)
+}
+// let welcomeDiv = document.querySelector('welcome-text')
+// welcomeDiv.addEventListener("click", () => refreshPage)
+// function refreshPage(e) {
+//     welcomeDiv.reset()
+// }
