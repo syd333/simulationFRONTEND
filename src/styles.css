@@ -12,6 +12,7 @@ body {
     display: flex;
     padding-right: 20px;
     padding-left: 20px;
+    flex-wrap: wrap;
 }
 
 .block-container {
@@ -39,6 +40,8 @@ body {
     text-align: center;
     padding-right: 20px;
     padding-left: 20px;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .card-title {
@@ -82,6 +85,9 @@ body {
 
 .create-block{
     color: black;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
 }
 
 .welcome-text{
@@ -93,6 +99,15 @@ body {
     margin-left: auto;
     padding-left: 30px;
     padding-bottom: 30px;
+    padding-bottom: 30px;
+    padding-top: 30px;
+    color: black;
+}
+
+.edit-block-form{
+    margin-left: auto;
+    padding-left: 30px;
+    padding-bottom: 30px;
     color: black;
 }
 
@@ -100,6 +115,7 @@ body {
     margin-left: auto;
     padding-left: 30px;
     padding-bottom: 30px;
+    padding-top: 30px;
 }
 
 .button{

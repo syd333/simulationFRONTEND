@@ -1,10 +1,15 @@
+// global variables
 const BASE_URL = "http://localhost:3000"
 const BLOCKS_URL = `${BASE_URL}/blocks`
 const CHANNELS_URL = `${BASE_URL}/channels`
+let editBlockForm = document.querySelector('.edit-block-form')
 
+// first FETCH
 document.addEventListener("DOMContentLoaded", function() {
     getChannels()
 })
+
+// GET FETCH CHANNEL
 function getChannels(){
     fetch(CHANNELS_URL)
     .then(res => res.json())
@@ -15,6 +20,7 @@ function getChannels(){
     .then(getBlocks())
 }
 
+// POST FETCH CHANNEL
 function postChannel(channel){
     fetch(CHANNELS_URL, {
         method: 'POST',
@@ -27,12 +33,14 @@ function postChannel(channel){
     .then(channel => buildChannel(channel))
 }
 
+// GET FETCH BLOCK
 function getBlocks(){
     fetch(BLOCKS_URL)
     .then(res => res.json())
     .then(blocks => blocks.forEach(block => buildBlock(block)))
 }
 
+// POST FETCH BLOCK
 function postBlock(block){
     fetch(BLOCKS_URL, {
         method: 'POST',
@@ -43,22 +51,69 @@ function postBlock(block){
     })
     .then(res => res.json())
     .then(block => buildBlock(block))
-
 }
 
+// DELETE FETCH BLOCK
+function deleteBlock(block, cardB) {
+    fetch(BLOCKS_URL + `/${block.id}`, {
+        method: 'DELETE'
+    })
+        .then(res => res.json())
+        .then(() => {
+            cardB.remove()
+        })
+}
+
+function deleteChannel(channel, cardC) {
+    fetch(CHANNELS_URL + `/${channel.id}`, {
+        method: 'DELETE'
+    })
+        .then(res => res.json())
+        .then(() => {
+            cardC.remove()
+        })
+}
+
+// PATCH FETCH BLOCK
+function editBlock(block){
+    // console.log(block.id)
+    fetch(BLOCKS_URL + `/${block.id}`, {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        },
+        body: JSON.stringify(block)
+    })
+    .then(res => res.json())
+    .then(block => {
+        let cardB = document.querySelector(`#${block.id}`)
+        let h5 = document.querySelector('h5')
+        let p = document.querySelector('p')
+        h5.textContent = block.title
+        p.textContent = block.description
+    })
+
+        
+}
+
+// RENDERING DOM ELEMENTS
 function buildChannel(channel){
         const container = document.querySelector('.channel-container') 
-        const card = document.createElement('card')
+        const cardC = document.createElement('card')
         const p = document.createElement('p')
+        // const deleteBtn = document.createElement('button')
 
         p.dataset.id = channel.id
         container.className = 'channel-container'
-        card.className = 'card-body-channel'
+        cardC.className = 'card-body-channel'
         p.className = 'channel-title'
         p.textContent = channel.title
+        // deleteBtn.innerText = 'x'
 
-        container.appendChild(card)
-        card.appendChild(p)
+        container.appendChild(cardC)
+        cardC.appendChild(p)
+        // deleteBtn.addEventListener('click', () => deleteChannel(channel, cardC))
         // card.addEventListener('click', (e) => {
         //   return showHideDiv(e) 
         // console.log(p.parentElement)
@@ -79,23 +134,41 @@ function buildBlock(block){
             
             containerB.className = 'block-container'
             containerB.id = block.channel_id
+            cardB.id = block.id
             // containerB.dataset.id = block.id
             cardB.className = 'card-body-block'
+            // h5.contentEditable = "true"
             h5.className = 'card-title'
             p.className = 'card-text'
+            editBtn.className = 'editBtn'
+            // p.contentEditable = "true"
             h5.textContent = block.title
             p.innerText = block.description
             deleteBtn.innerText = 'x'
             editBtn.innerText = 'e'
-        
+            editBtn.id = block.id
+            editBtn.data = block.channel_id
+
             // blockDiv.hidden = false
             cardB.append(h5, p, editBtn, deleteBtn)
             containerB.appendChild(cardB)
             blockDiv.append(containerB)
             blockContainer.append(blockDiv)
             deleteBtn.addEventListener('click', () => deleteBlock(block, cardB))
-            editBtn.addEventListener('click', () => populateEditForm(block))
 
+
+
+            editBtn.addEventListener('click', (e) => {
+                // console.log(e.target.id)
+                if(editBlockForm.hidden) {
+                    editBlockForm.id = e.target.id
+                    editBlockForm.data = e.target.data
+                    editBlockForm.hidden = !editBlockForm.hidden
+                } else {
+                    editBlockForm.hidden = !editBlockForm.hidden
+                }
+            })
+  
     // } else {
         // let blockDiv = document.getElementById(block.channel_id)
         // const containerB = document.createElement('div') 
@@ -137,6 +210,23 @@ function buildBlock(block){
 //     }
 // }
 
+
+editBlockForm.addEventListener('submit', (e) => editedBlock(e))
+function editedBlock(e){
+    // console.log(e.target.id)
+    e.preventDefault()
+    let newBlock = {
+        id: e.target.id,
+        title: e.target.title.value,
+        description: e.target.description.value,
+        channel_id: e.target.data,
+        user_id: 41
+    }
+    editBlockForm.reset()
+    editBlock(newBlock)
+}
+
+// FORM HIDDEN WHEN CLICKED ON CREATE CHANNEL
 let channelForm = document.querySelector('.channel-form')
    const createChannel = document.querySelector('.create-channel')
    createChannel.addEventListener('click', () => {
@@ -147,6 +237,7 @@ let channelForm = document.querySelector('.channel-form')
         }
    })
 
+   // FILLIN OUT CHANNEL FORM 
 channelForm.addEventListener('submit', newChannel)
 function newChannel(e){
     e.preventDefault()
@@ -157,7 +248,7 @@ function newChannel(e){
         postChannel(channel)
 }
 
-
+// FORM HIDDEN WHEN CLICKED ON CREATE BLOCK
 let blockForm = document.querySelector('.block-form')
    const createBlock = document.querySelector('.create-block')
    createBlock.addEventListener('click', () => {
@@ -168,6 +259,7 @@ let blockForm = document.querySelector('.block-form')
         }
    })
 
+   //FILLIN OUT BLOCK FORM
 blockForm.addEventListener('submit', (e) => newBlock(e))
 function newBlock(e){
     e.preventDefault()
@@ -181,6 +273,7 @@ function newBlock(e){
     postBlock(block)
 }
 
+// DROP DOWN 
 function buildBlockFormDropDown(CHANNELSARR) {
     let dropdown = document.getElementById('channelList')
     CHANNELSARR.forEach((channel) => {
@@ -191,47 +284,7 @@ function buildBlockFormDropDown(CHANNELSARR) {
     })
 }
 
-function deleteBlock(block, cardB) {
-    fetch(BLOCKS_URL + `/${block.id}`, {
-        method: 'DELETE'
-    })
-        .then(res => res.json())
-        .then(() => {
-            cardB.remove()
-        })
-}
-
-function populateEditForm(e){
-    let blockContainer = document.querySelector('block-container')
-    const cardEdit = document.createElement('card')
-    let editForm = document.createElement('form')
-    const h5 = document.createElement('h5')
-    const p = document.createElement('p')
-
-    h5.textContent = e.title
-    console.log(e.description)
-
-
-    // h5.textContent = e.target.title.value
-    // p.textContent = block.description
-    editForm.append(h5, p)
-    cardEdit.appendChild(editForm)
-    blockContainer.appendChild(cardEdit)
-
-}
-
-function editBlock(block){
-    fetch(BLOCKS_URL + `/${block.id}`, {
-        method: 'PATCH',
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json"
-        },
-        body: JSON.stringify(block)
-    })
-    .then(res => res.json())
-    .then(console.log)
-}
+// REFRESH TO HOME WHEN CLICKED ON SIMULATION
 let homelink = document.querySelector('.home')
 homelink.addEventListener("click", refreshPage)
     function refreshPage(){
