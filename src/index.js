@@ -87,11 +87,8 @@ function editBlock(block){
     })
     .then(res => res.json())
     .then(block => {
-        let cardB = document.querySelector(`#${block.id}`)
-        let h5 = document.querySelector('h5')
-        let p = document.querySelector('p')
-        h5.textContent = block.title
-        p.textContent = block.description
+
+    
     })
 
         
